@@ -1,0 +1,22 @@
+.cell {
+    height: 50px;
+    width: 50px;
+    font-size:x-large
+}
+
+.hiddenCell {
+    background-color:chartreuse
+    
+}
+
+.visibleCell {
+    
+    background-color: aquamarine;
+}
+
+.mineCell {
+    background-color: rebeccapurple;
+    background-image: url(/img/bomb.png);
+    background-position: center;
+    background-size: cover;
+}
