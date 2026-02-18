@@ -26,7 +26,6 @@ function onInit() {
     }
     gBoard = []
     buildBoard()
-    SaveBoards()
     renderBoard()
     renderHealth()
 }
@@ -119,9 +118,11 @@ function expandReveal(y, x) {
     }
 }
 function revealCell(elCell, y, x) {
-    SaveBoards()
+
     if (gGame.isOn) {
+        SaveBoards()
         if (!(gBoard[y][x].revealed) && (gBoard[y][x].isMine)) {
+            
             gHealth--
             renderHealth()
             mineExplode()
