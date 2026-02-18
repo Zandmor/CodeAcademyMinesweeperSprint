@@ -26,7 +26,7 @@
 
 .markedCell {
     background-color: chartreuse;
-    background-image: url(/img/flag.png);
+    background-image: url(/img/markFlag.png);
     background-size: cover;
     background-position: center;
 }
