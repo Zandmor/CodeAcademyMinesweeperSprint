@@ -8,16 +8,31 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body onload="onInit()">
+<body onload="onInit()" oncontextmenu="return false" id="body">
     <header>
         <h1>MineSweeper</h1>
+         
     </header>
     <main>
         <div>
-            <table id="gameTable">
-                
+            <button class="difficulty" id="gameEasy" onclick="changeDifficulty(4,2)">Easy</button>
+            <button class="difficulty" id="gameMedium" onclick="changeDifficulty(8,14)">Medium</button>
+            <button class="difficulty" id="gameHard" onclick="changeDifficulty(12,32)">Hard</button>
+            <strong class="highscore" id="highscore">Highscore: 000</strong>
+            
+        </div>
+        <button class="undo" id="undo" onclick="undo()">Undo</button>
+        <div id="gameHealth">
+        </div>
+        <div>
+            <table id="gameTable" class="gameTable">
+
             </table>
         </div>
+        <div>
+            <button id="gameSmiley" class="smiley" onclick="onSmileyClick()">&#128516;</button>
+        </div>
+        <footer><button onclick="switchDarkMode()">Dark Mode</button></footer>
 
 
 
