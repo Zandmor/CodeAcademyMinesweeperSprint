@@ -1,16 +1,19 @@
 .cell {
-    height: 50px;
-    width: 50px;
-    font-size:x-large
+    height: 30px;
+    width: 30px;
+    font-size: x-large;
+}
+
+.gameTable {
+    margin: 0px auto;
 }
 
 .hiddenCell {
-    background-color:chartreuse
-    
+    background-color: chartreuse
 }
 
 .visibleCell {
-    
+
     background-color: aquamarine;
 }
 
@@ -19,4 +22,75 @@
     background-image: url(/img/bomb.png);
     background-position: center;
     background-size: cover;
+}
+
+.markedCell {
+    background-color: chartreuse;
+    background-image: url(/img/flag.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.smiley {
+    text-align: center;
+    height: 50px;
+    width: 50px;
+    font-size: x-large;
+}
+
+.heart {
+    height: 30px;
+    width: auto;
+
+}
+
+body {
+    text-align: center;
+    justify-content: center;
+    place-items: center;
+    background-color: peachpuff;
+    
+}
+
+
+
+.darkMode {
+background-color: grey;
+color: white;
+}
+
+.highscore {
+    margin-left: 50px;
+    font-family: 'Segoe UI';
+    font-weight: 300;
+}
+
+.difficulty {
+font-family: 'Lucida Sans';
+}
+
+
+h1 {
+    font-family: sans-serif;
+}
+
+.health {
+    font-family: cursive;
+    font-size: x-large;
+}
+
+.undo {
+    margin-left: 800px;
+    background-color: orange;
+    font-family: 'Trebuchet MS';
+    height: 30px;
+    width: 50px;
+}
+
+footer {
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
 }
