@@ -272,5 +272,5 @@ function undo() {
 
 function switchDarkMode() {
     var element = document.body
-    element.class
+    element.classList.toggle("darkMode")
 }
