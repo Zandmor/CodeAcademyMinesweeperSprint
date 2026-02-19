@@ -3,6 +3,8 @@ var gDifficulty = [8,12] //[board size, mine count]
 var gBoard = []
 var gHealth = 3
 var gTimeStart = 0
+var gMines = []
+var gPrevBoards = []
 var gGame =
 {
     isOn: false,
@@ -10,13 +12,14 @@ var gGame =
     markedCount: 0,
     secsPassed: 0
 }
-var gPrevBoards = []
+
 
 function onInit() {
     displayHighScore()
     gTimeStart = new Date()
     gHealth = 3
     gPrevBoards = []
+    gMines = []
     gGame =
     {
         isOn: false,
@@ -74,8 +77,10 @@ function plantMines(initY, initX) {
         y = Math.floor(Math.random() * gBoard.length)
         if (!(y == initY && x == initX)) {
 
-            if (!(gBoard[y][x].isMine))
+            if (!(gBoard[y][x].isMine)){
                 gBoard[y][x].isMine = true
+                gMines.push([y,x])
+            }
             else i--
         }
         else i--
@@ -270,6 +275,7 @@ function undo() {
     renderBoard()
     
 }
+
 
 function switchDarkMode() {
     var element = document.body
