@@ -17,16 +17,28 @@
     background-color: aquamarine;
 }
 
+.megaHint {
+    background-color: blue;
+    color: aqua;
+}
+
 .mineCell {
     background-color: rebeccapurple;
-    background-image: url(/bomb.png);
+    background-image: url(/img/bomb.png);
     background-position: center;
     background-size: cover;
 }
 
 .markedCell {
     background-color: chartreuse;
-    background-image: url(/markFlag.png);
+    background-image: url(/img/markFlag.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.safeMarkedCell {
+    background-color: chartreuse;
+    background-image: url(/img/safeFlag.png);
     background-size: cover;
     background-position: center;
 }
@@ -44,6 +56,14 @@
 
 }
 
+
+
+.hint {
+    height: 30px;
+    width: auto;
+
+}
+
 body {
     text-align: center;
     justify-content: center;
@@ -55,6 +75,33 @@ body {
 body.darkMode button {
     background-color: black;
     color: white;
+}
+
+.megaHint.megaUsed {
+    background-color: crimson;
+    color:cornsilk;
+}
+
+.safeClick {
+    background-color:aquamarine;
+    color:black;
+
+}
+
+.safeClick.safeUsed {
+    background-color: crimson;
+    color: cornsilk;
+}
+
+.mineExterminator {
+    background-color:green;
+    color:black;
+
+}
+
+.mineExterminator.ExterminatorUsed {
+    background-color: crimson;
+    color:cornsilk;
 }
 
 
