@@ -19,14 +19,14 @@
 
 .mineCell {
     background-color: rebeccapurple;
-    background-image: url(img/bomb.png);
+    background-image: url(/bomb.png);
     background-position: center;
     background-size: cover;
 }
 
 .markedCell {
     background-color: chartreuse;
-    background-image: url(img/markFlag.png);
+    background-image: url(/markFlag.png);
     background-size: cover;
     background-position: center;
 }
