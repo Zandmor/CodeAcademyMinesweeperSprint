@@ -178,6 +178,7 @@ function renderSafeClick() {
     }
 }
 function safeClick() {
+    gHintTurn = true
     gSafeClickUses--
     renderSafeClick()
     var check = false
@@ -194,7 +195,9 @@ function safeClick() {
     setTimeout(function () {
         console.log(checkSpot)
         checkSpot.safeMarked = false
+        gHintTurn = false
         renderBoard()
+        
     }, 1500);
 
 }
@@ -221,7 +224,7 @@ var gameExterminator = document.getElementById("mineExterminator")
 }
 
 function revealCell(elCell, y, x) {
-
+if(!gHintTurn){
     if (gGame.isOn) {
         if (gMegaClicked) {
             if (gMegaArea[0] == "empty") gMegaArea[0] = [y, x]
@@ -260,7 +263,7 @@ function revealCell(elCell, y, x) {
             else {
                 if (!(gBoard[y][x].revealed) && (gBoard[y][x].isMine)) {
 
-                    gHealth--
+                    if (gHealth>0) gHealth--
                     renderHealth()
                     mineExplode()
                 }
@@ -282,7 +285,7 @@ function revealCell(elCell, y, x) {
     }
 
     renderBoard()
-
+}
 }
 
 function DisplayConsoleBoard() {
@@ -364,7 +367,16 @@ function checkGameState() {
     var Smiley = document.getElementById("gameSmiley")
     if (gHealth > 0 && !checkGameOver()) Smiley.innerHTML = "&#128516"
     if (gHealth == 0) {
+        gHealth--
         Smiley.innerHTML = "&#128584"
+        var lose = new Audio('sound/lose.opus');
+        lose.volume = 0.02
+        lose.play();
+        setTimeout(() => {
+            Smiley.innerHTML = "&#128516"
+            onInit()
+        }, 3000);
+        
     }
     if (checkGameOver()) {
         Smiley.innerHTML = "&#128640"
