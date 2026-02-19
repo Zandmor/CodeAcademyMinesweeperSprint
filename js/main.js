@@ -41,6 +41,7 @@ function onInit() {
         secsPassed: 0
     }
     gBoard = []
+    resetCheats()
     buildBoard()
     renderBoard()
     renderHealth()
@@ -164,7 +165,6 @@ function hideMegaButton() {
     var gameMegaHint = document.getElementById("megaHint")
     var megaHintCode = "<button id = \"megaHint\" class=\"megaUsed\">Mega Hint</button>"
 
-    gameMegaHint.classList.toggle("megaUsed")
     gameMegaHint.disabled = true
 }
 
@@ -174,7 +174,6 @@ function renderSafeClick() {
     if (gSafeClickUses > 0) gameSafeClick.innerHTML = "Safe Click: " + gSafeClickUses + " Uses Left"
     if (gSafeClickUses == 0) {
         gameSafeClick.innerHTML = "Safe Click Ran Out"
-        gameSafeClick.classList.toggle("safeUsed")
         gameSafeClick.disabled = true
     }
 }
@@ -218,7 +217,6 @@ function disableExterminator() {
 var gameExterminator = document.getElementById("mineExterminator")
     
         gameExterminator.innerHTML = "Exterminator Disabled"
-        gameExterminator.classList.toggle("ExterminatorUsed")
         gameExterminator.disabled = true
 }
 
@@ -446,4 +444,13 @@ function undo() {
 function switchDarkMode() {
     var element = document.body
     element.classList.toggle("darkMode")
+}
+
+function resetCheats() {
+    var cheats = document.querySelectorAll(".cheat")
+    for(var i = 0 ; i<cheats.length ; i++){
+        cheats[i].disabled = false
+    }
+    var resetExterminator = document.getElementById("mineExterminator")
+    resetExterminator.innerHTML= "Mine Exterminator"
 }

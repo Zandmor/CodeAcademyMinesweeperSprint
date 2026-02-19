@@ -77,10 +77,7 @@ body.darkMode button {
     color: white;
 }
 
-.megaHint.megaUsed {
-    background-color: crimson;
-    color:cornsilk;
-}
+
 
 .safeClick {
     background-color:aquamarine;
@@ -88,15 +85,15 @@ body.darkMode button {
 
 }
 
-.safeClick.safeUsed {
-    background-color: crimson;
-    color: cornsilk;
-}
-
 .mineExterminator {
     background-color:green;
     color:black;
 
+}
+
+.cheat:disabled {
+    background-color: crimson;
+    color: cornsilk;
 }
 
 .mineExterminator.ExterminatorUsed {
