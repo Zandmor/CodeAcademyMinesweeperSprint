@@ -91,6 +91,10 @@ body.darkMode button {
 
 }
 
+.placeMines{
+    background-color:chocolate ;
+}
+
 .cheat:disabled {
     background-color: crimson;
     color: cornsilk;

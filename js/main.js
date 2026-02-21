@@ -1,5 +1,7 @@
 "use strict"
 var gSafeClickUses = 3
+var gPlaceMinesLeft = 0
+var gPlaceMines = false
 var gDifficulty = [8, 12] //[board size, mine count]
 var gBoard = []
 var gHealth = 3
@@ -22,7 +24,10 @@ var gGame =
 
 
 function onInit() {
+
     displayHighScore()
+    gPlaceMinesLeft = 0
+    gPlaceMines = false
     gTimeStart = new Date()
     gHealth = 3
     gHints = 3
@@ -197,7 +202,7 @@ function safeClick() {
         checkSpot.safeMarked = false
         gHintTurn = false
         renderBoard()
-        
+
     }, 1500);
 
 }
@@ -217,75 +222,83 @@ function exterminateMines(minesRemoved) {
 
 }
 function disableExterminator() {
-var gameExterminator = document.getElementById("mineExterminator")
-    
-        gameExterminator.innerHTML = "Exterminator Disabled"
-        gameExterminator.disabled = true
+    var gameExterminator = document.getElementById("mineExterminator")
+
+    gameExterminator.innerHTML = "Exterminator Disabled"
+    gameExterminator.disabled = true
 }
 
 function revealCell(elCell, y, x) {
-if(!gHintTurn){
-    if (gGame.isOn) {
-        if (gMegaClicked) {
-            if (gMegaArea[0] == "empty") gMegaArea[0] = [y, x]
+    if (!gHintTurn) {
+        if (gGame.isOn) {
+            if (gPlaceMines) {
+                placeManualMine(y, x)
+            }
             else {
-                if (gMegaArea[1] == "empty") {
-                    gMegaArea[1] = [y, x]
-                    SaveBoards()
-                    gHintTurn = true
-                    gMegaClicked = false
-                    hideMegaButton()
-                    megaReveal(gMegaArea[0][0], gMegaArea[0][1], gMegaArea[1][0], gMegaArea[1][1])
-                    renderBoard()
-                    setTimeout(() => {
 
-                        undo()
-                        gHintTurn = false
-                        renderHints()
-                    }, 1500);
+
+                if (gMegaClicked) {
+                    if (gMegaArea[0] == "empty") gMegaArea[0] = [y, x]
+                    else {
+                        if (gMegaArea[1] == "empty") {
+                            gMegaArea[1] = [y, x]
+                            SaveBoards()
+                            gHintTurn = true
+                            gMegaClicked = false
+                            hideMegaButton()
+                            megaReveal(gMegaArea[0][0], gMegaArea[0][1], gMegaArea[1][0], gMegaArea[1][1])
+                            renderBoard()
+                            setTimeout(() => {
+
+                                undo()
+                                gHintTurn = false
+                                renderHints()
+                            }, 1500);
+                        }
+                    }
+                }
+
+                else {
+                    SaveBoards()
+                    if (gHintClicked) {
+                        gHintClicked = false
+                        gHintTurn = true
+                        smallReveal(y, x)
+                        renderBoard()
+                        setTimeout(() => {
+
+                            undo()
+                            gHintTurn = false
+                            renderHints()
+                        }, 1500);
+                    }
+                    else {
+                        if (!(gBoard[y][x].revealed) && (gBoard[y][x].isMine)) {
+
+                            if (gHealth > 0) gHealth--
+                            renderHealth()
+                            mineExplode()
+                        }
+
+                        else {
+                            if (gBoard[y][x].neighbors == 0) expandReveal(y, x)
+                            gBoard[y][x].revealed = true
+                            gBoard[y][x].marked = false
+                        }
+                    }
                 }
             }
         }
         else {
-            SaveBoards()
-            if (gHintClicked) {
-                gHintClicked = false
-                gHintTurn = true
-                smallReveal(y, x)
-                renderBoard()
-                setTimeout(() => {
-
-                    undo()
-                    gHintTurn = false
-                    renderHints()
-                }, 1500);
-            }
-            else {
-                if (!(gBoard[y][x].revealed) && (gBoard[y][x].isMine)) {
-
-                    if (gHealth>0) gHealth--
-                    renderHealth()
-                    mineExplode()
-                }
-
-                else {
-                    if (gBoard[y][x].neighbors == 0) expandReveal(y, x)
-                    gBoard[y][x].revealed = true
-                    gBoard[y][x].marked = false
-                }
-            }
+            gGame.isOn = true
+            plantMines(y, x)
+            if (gBoard[y][x].neighbors == 0) expandReveal(y, x)
+            gBoard[y][x].revealed = true
+            gBoard[y][x].marked = false
         }
-    }
-    else {
-        gGame.isOn = true
-        plantMines(y, x)
-        if (gBoard[y][x].neighbors == 0) expandReveal(y, x)
-        gBoard[y][x].revealed = true
-        gBoard[y][x].marked = false
-    }
 
-    renderBoard()
-}
+        renderBoard()
+    }
 }
 
 function DisplayConsoleBoard() {
@@ -325,7 +338,7 @@ function renderBoard() {
 
     }
     gameTable.innerHTML = tableCode
-    if(gGame.isOn) checkGameState()
+    if (gGame.isOn) checkGameState()
     //DisplayConsoleBoard()
     //console.log(gPrevBoards)
 }
@@ -376,7 +389,7 @@ function checkGameState() {
             Smiley.innerHTML = "&#128516"
             onInit()
         }, 3000);
-        
+
     }
     if (checkGameOver()) {
         Smiley.innerHTML = "&#128640"
@@ -384,7 +397,7 @@ function checkGameState() {
             gBoard[gMines[i][0]][gMines[i][1]].marked = false
             gBoard[gMines[i][0]][gMines[i][1]].revealed = true
         }
-        gGame.isOn=false
+        gGame.isOn = false
         renderBoard()
         var win = new Audio('sound/win.opus');
         win.volume = 1
@@ -460,9 +473,33 @@ function switchDarkMode() {
 
 function resetCheats() {
     var cheats = document.querySelectorAll(".cheat")
-    for(var i = 0 ; i<cheats.length ; i++){
+    for (var i = 0; i < cheats.length; i++) {
         cheats[i].disabled = false
     }
     var resetExterminator = document.getElementById("mineExterminator")
-    resetExterminator.innerHTML= "Mine Exterminator"
+    resetExterminator.innerHTML = "Mine Exterminator"
+    var placeMinesTurn = document.getElementById("placeMines")
+    placeMinesTurn.innerHTML = "Place Mines"
+}
+
+function placeManualMines() {
+    onInit()
+    gGame.isOn = true
+    gPlaceMinesLeft = gDifficulty[1]
+    gPlaceMines = true
+    var placeMinesTurn = document.getElementById("placeMines")
+    placeMinesTurn.innerHTML = "Place Mines: " + gPlaceMinesLeft + " Mines Left"
+}
+
+function placeManualMine(y, x) {
+    
+    console.log(gPlaceMinesLeft)
+    gBoard[y][x].isMine = true
+    gPlaceMinesLeft--
+    var placeMinesTurn = document.getElementById("placeMines")
+    placeMinesTurn.innerHTML = "Place Mines: " + gPlaceMinesLeft + " Mines Left"
+    if (gPlaceMinesLeft == 0) {
+        placeMinesTurn.innerHTML = "Place Mines"
+        gPlaceMines = false
+    }
 }
